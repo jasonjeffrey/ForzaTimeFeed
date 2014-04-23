@@ -4,15 +4,26 @@ var http = require('http'),
     url = require('url'),
     requestData = function (rootRes, path) {
         var req,
+
+            //set cookie header with my cookies for friends list
             options = {
                 hostname: 'www.forzamotorsport.net',
-                path: '/en-us/leaderboards/GetFirstFilter?firstFilter=1001&title=Forza5',
+                path: '/en-us/leaderboards/',
                 headers: {}
             },
             carClass = {
                 'd': 1000, 'c': 1001, 'b': 1002, 'a': 1003,
                 's': 1004, 'r': 1005, 'p': 1006, 'x': 1007
             };
+
+
+        if(!path[2]) {
+            options.path += 'GetSecondFilter?firstFilter=' + carClass[path[1]] + '&title=Forza5'
+        } else if(!path[3]) {
+            options.path += 'GetThirdFilter?firstFilter=' + carClass[path[1]] + '&secondFilter=' + path[2] + '&title=Forza5'
+        } else {
+            options.path += 'GetRows?firstFilter=' + carClass[path[1]] + '&secondFilter=' + path[2] + '&thirdFilter=' + path[3] + '&fourthFilter=-1&sortView=0&rowsShown=10&startIndex=0&title=Forza5'
+        }
 
         req = http.request(options, function (res) {
             var data = '';

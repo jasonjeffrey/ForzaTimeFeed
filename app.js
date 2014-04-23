@@ -9,7 +9,9 @@ var http = require('http'),
             options = {
                 hostname: 'www.forzamotorsport.net',
                 path: '/en-us/leaderboards/',
-                headers: {}
+                headers: {
+                    cookie: '__RequestVerificationToken=QX3FH3eSPaA4FTC7d5QFOQmatGpsWpkFiv2kKxV3YF7kbBVypQIpalC5BHloAcVz5vBqlqPF-_jKMK6qjSWGhASMx9w7QJdU6cYuMC6oafs1; locale=en-US; leWebAuth=eyJhbGciOiJIUzI1NiIsImtpZCI6IjEiLCJ0eXAiOiJKV1QifQ.eyJ2ZXIiOjEsImlzcyI6InVybjp3aW5kb3dzOmxpdmVpZCIsImV4cCI6MTM5NzY1NjI2NiwidWlkIjoiZTRiOGNiMTJiMzVlZWM1MWZmZTUyOTg5MDY4NGI4OWUiLCJhdWQiOiJmb3J6YW1vdG9yc3BvcnQubmV0IiwidXJuOm1pY3Jvc29mdDphcHB1cmkiOiJhcHBpZDovLzAwMDAwMDAwNDQxMEE0NEQiLCJ1cm46bWljcm9zb2Z0OmFwcGlkIjoiMDAwMDAwMDA0NDEwQTQ0RCJ9.EAnDAdWIRLTfUsh858k0Ha_i1-egXK-3FUCk5H-6lts'
+                }
             },
             carClass = {
                 'd': 1000, 'c': 1001, 'b': 1002, 'a': 1003,
@@ -22,7 +24,7 @@ var http = require('http'),
         } else if(!path[3]) {
             options.path += 'GetThirdFilter?firstFilter=' + carClass[path[1]] + '&secondFilter=' + path[2] + '&title=Forza5'
         } else {
-            options.path += 'GetRows?firstFilter=' + carClass[path[1]] + '&secondFilter=' + path[2] + '&thirdFilter=' + path[3] + '&fourthFilter=-1&sortView=0&rowsShown=10&startIndex=0&title=Forza5'
+            options.path += 'GetRows?firstFilter=' + carClass[path[1]] + '&secondFilter=' + path[2] + '&thirdFilter=' + path[3] + '&fourthFilter=-1&sortView=2&rowsShown=10&startIndex=0&title=Forza5'
         }
 
         req = http.request(options, function (res) {

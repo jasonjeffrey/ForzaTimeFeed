@@ -38,8 +38,9 @@ var http = require('http'),
         var path = url.parse(request.url);
 
         response.writeHead(200, {
+            'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'X-Requested-With'
+            'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'
         });
 
         if (path.path.indexOf('favicon') === -1) {

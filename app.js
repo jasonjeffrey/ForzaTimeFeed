@@ -1,6 +1,8 @@
 'use strict';
 var http = require('http'),
-    requestData = function (rootRes) {
+    port = process.env.PORT || 5000,
+    url = require('url'),
+    requestData = function (rootRes, path) {
         var req,
             options = {
                 hostname: 'www.forzamotorsport.net',
@@ -12,9 +14,15 @@ var http = require('http'),
                 's': 1004, 'r': 1005, 'p': 1006, 'x': 1007
             };
 
+        console.log(path);
+
         req = http.request(options, function (res) {
             var data = '';
+
             res.setEncoding('utf8');
+
+            console.log('HEADERS: ' + JSON.stringify(res.headers));
+
             res.on('data', function (chunk) {
                 data += chunk;
             });
@@ -30,20 +38,23 @@ var http = require('http'),
         req.end();
     },
 
-    server = http.createServer(function (req, res) {
-        //read request header for path
-        //pass path to the function for track etc.
-        res.writeHead(200, {
+    server = http.createServer(function (request, response) {
+        var path = url.parse(request.url);
+
+        response.writeHead(200, {
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': 'X-Requested-With'
         });
-        requestData(res);
+
+        if (path.path.indexOf('favicon') === -1) {
+            requestData(response, path.path.split('/'));
+        }
     });
 
-server.listen('8000');
+server.listen(port);
 
-console.log('server listening on port 8000');
+console.log('server listening on port ' + port);
 
 
 

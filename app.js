@@ -14,14 +14,10 @@ var http = require('http'),
                 's': 1004, 'r': 1005, 'p': 1006, 'x': 1007
             };
 
-        console.log(path);
-
         req = http.request(options, function (res) {
             var data = '';
 
             res.setEncoding('utf8');
-
-            console.log('HEADERS: ' + JSON.stringify(res.headers));
 
             res.on('data', function (chunk) {
                 data += chunk;
@@ -42,7 +38,6 @@ var http = require('http'),
         var path = url.parse(request.url);
 
         response.writeHead(200, {
-            'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Headers': 'X-Requested-With'
         });

@@ -1,5 +1,18 @@
 'use strict';
-var http = require('http'),
+var server = require('./modules/webServer'),
+    routing = function (request, response) {
+        var path = url.parse(request.url);
+
+        response.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'
+        });
+
+        if (path.path.indexOf('favicon') === -1) {
+            requestData(response, cleanseData(path));
+        }
+    },
     port = process.env.PORT || 5000,
     url = require('url'),
     cleanseData = function (rawPath) {
@@ -58,19 +71,7 @@ var http = require('http'),
         req.end();
     },
 
-    server = http.createServer(function (request, response) {
-        var path = url.parse(request.url);
-
-        response.writeHead(200, {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'X-Requested-With, Content-Type'
-        });
-
-        if (path.path.indexOf('favicon') === -1) {
-            requestData(response, cleanseData(path));
-        }
-    });
+    server = http.createServer();
 
 server.listen(port);
 
